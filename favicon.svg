@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Mirko Visentin">
+  <rect width="32" height="32" rx="4" fill="#1a2620"/>
+  <rect x="5" y="5" width="22" height="22" rx="2" fill="#f4ead8"/>
+  <rect x="14.2" y="10.2" width="3.6" height="3.6" transform="rotate(45 16 12)" fill="#b63d28"/>
+  <rect x="14.2" y="18.2" width="3.6" height="3.6" transform="rotate(45 16 20)" fill="#b63d28"/>
+</svg>
