@@ -77,13 +77,12 @@
     return fade(Math.max(0, Math.min(1, 1 - dist / k)));
   }
 
-  function cardDensity(px, py, cx, cy, hw, hh, rot) {
+  function cardDensity(px, py, cx, cy, hw, hh, rot, grain) {
     const body = sdRoundRect(px, py, cx, cy, hw, hh, 0.018, rot);
-    const hole = sdRoundRect(px, py, cx, cy, hw - 0.018, hh - 0.018, 0.012, rot);
     return (
-      soft(Math.abs(body) - 0.006, 0.01) * 0.92 +
-      soft(body, 0.03) * 0.18 +
-      soft(-hole, 0.008) * 0.08
+      soft(body, 0.028) * (0.4 + grain * 0.16) +
+      soft(Math.abs(body) - 0.007, 0.009) * 1 +
+      soft(Math.abs(body) - 0.02, 0.007) * 0.55
     );
   }
 
@@ -98,19 +97,19 @@
         const px = (u - 0.5) * aspect;
         const py = v - 0.5;
 
-        const wave = fbm(u * 2.1 + 1.4, v * 2.1);
-        let d = 0.045 + wave * 0.1 + fbm(u * 9 + 4, v * 9) * 0.04;
-        if (wave > 0.62) d += (wave - 0.62) * 0.55;
+        const grain = fbm(u * 6.5, v * 6.5);
+        const wave = fbm(u * 1.7 + 2.2, v * 1.7);
+        let d = 0.012 + grain * 0.035 + wave * 0.03;
 
-        d += cardDensity(px, py, -0.4, -0.02, 0.125, 0.21, -0.36);
-        d += cardDensity(px, py, 0.42, 0.06, 0.115, 0.195, 0.44);
-        d += cardDensity(px, py, 0, -0.37, 0.078, 0.135, 0.08);
+        d += cardDensity(px, py, -0.4, -0.02, 0.13, 0.22, -0.36, grain);
+        d += cardDensity(px, py, 0.43, 0.05, 0.12, 0.2, 0.44, grain);
+        d += cardDensity(px, py, 0, -0.38, 0.085, 0.145, 0.08, grain);
 
-        d += soft(sdDiamond(px, py, -0.4, -0.08, 0.032), 0.014) * 0.7;
-        d += soft(sdDiamond(px, py, 0.42, 0, 0.028), 0.014) * 0.65;
-        d += soft(sdDiamond(px, py, 0, -0.41, 0.02), 0.012) * 0.75;
-        d += soft(sdDiamond(px, py, -0.1, 0.4, 0.016), 0.012) * 0.28;
-        d += soft(sdDiamond(px, py, 0.14, 0.37, 0.014), 0.012) * 0.24;
+        d += soft(sdDiamond(px, py, -0.4, -0.1, 0.04), 0.016) * 0.95;
+        d += soft(sdDiamond(px, py, 0.43, -0.02, 0.036), 0.016) * 0.92;
+        d += soft(sdDiamond(px, py, 0, -0.43, 0.028), 0.014) * 0.95;
+        d += soft(sdDiamond(px, py, -0.1, 0.4, 0.02), 0.014) * 0.4;
+        d += soft(sdDiamond(px, py, 0.14, 0.37, 0.018), 0.014) * 0.35;
 
         const lamp = Math.hypot(px * 0.65, py + 0.12);
         d *= 1.08 - Math.min(0.32, lamp * 0.24);
@@ -150,9 +149,9 @@
           Math.sin(x * 0.15 + t) * Math.cos(y * 0.12 - t * 0.8) * 0.55 +
           Math.sin((x + y) * 0.05 + t * 0.4) * 0.45 +
           Math.sin(x * 0.04 - y * 0.03 + t * 0.25) * 0.35;
-        const v = density[i] + n * 0.15;
+        const v = density[i] + n * (0.05 + density[i] * 0.2);
         const threshold = (BAYER[(y & 7) * 8 + (x & 7)] + 0.5) / 64;
-        const on = v > threshold * 0.92 + 0.04;
+        const on = v > threshold * 0.78 + 0.07;
         const o = i * 4;
         if (on) {
           data[o] = DOT[0];
