@@ -77,6 +77,16 @@
     return fade(Math.max(0, Math.min(1, 1 - dist / k)));
   }
 
+  function cardDensity(px, py, cx, cy, hw, hh, rot) {
+    const body = sdRoundRect(px, py, cx, cy, hw, hh, 0.018, rot);
+    const hole = sdRoundRect(px, py, cx, cy, hw - 0.018, hh - 0.018, 0.012, rot);
+    return (
+      soft(Math.abs(body) - 0.006, 0.01) * 0.92 +
+      soft(body, 0.03) * 0.18 +
+      soft(-hole, 0.008) * 0.08
+    );
+  }
+
   function paintDensity() {
     density = new Float32Array(mapW * mapH);
     const aspect = mapW / mapH;
@@ -88,30 +98,22 @@
         const px = (u - 0.5) * aspect;
         const py = v - 0.5;
 
-        let d = 0.1 + fbm(u * 3.2, v * 3.2) * 0.16;
-        d += fbm(u * 7.5 + 8, v * 7.5) * 0.05;
+        const wave = fbm(u * 2.1 + 1.4, v * 2.1);
+        let d = 0.045 + wave * 0.1 + fbm(u * 9 + 4, v * 9) * 0.04;
+        if (wave > 0.62) d += (wave - 0.62) * 0.55;
 
-        d += soft(
-          sdRoundRect(px, py, -0.42, -0.02, 0.13, 0.22, 0.02, -0.38),
-          0.035,
-        ) * 0.78;
-        d += soft(
-          sdRoundRect(px, py, 0.44, 0.05, 0.12, 0.2, 0.02, 0.46),
-          0.035,
-        ) * 0.74;
-        d += soft(
-          sdRoundRect(px, py, 0, -0.38, 0.08, 0.14, 0.018, 0.1),
-          0.03,
-        ) * 0.7;
+        d += cardDensity(px, py, -0.4, -0.02, 0.125, 0.21, -0.36);
+        d += cardDensity(px, py, 0.42, 0.06, 0.115, 0.195, 0.44);
+        d += cardDensity(px, py, 0, -0.37, 0.078, 0.135, 0.08);
 
-        d += soft(sdDiamond(px, py, -0.42, -0.1, 0.035), 0.02) * 0.35;
-        d += soft(sdDiamond(px, py, 0.44, -0.02, 0.03), 0.02) * 0.32;
-        d += soft(sdDiamond(px, py, 0, -0.42, 0.022), 0.016) * 0.4;
-        d += soft(sdDiamond(px, py, -0.08, 0.4, 0.018), 0.014) * 0.22;
-        d += soft(sdDiamond(px, py, 0.12, 0.36, 0.016), 0.014) * 0.18;
+        d += soft(sdDiamond(px, py, -0.4, -0.08, 0.032), 0.014) * 0.7;
+        d += soft(sdDiamond(px, py, 0.42, 0, 0.028), 0.014) * 0.65;
+        d += soft(sdDiamond(px, py, 0, -0.41, 0.02), 0.012) * 0.75;
+        d += soft(sdDiamond(px, py, -0.1, 0.4, 0.016), 0.012) * 0.28;
+        d += soft(sdDiamond(px, py, 0.14, 0.37, 0.014), 0.012) * 0.24;
 
-        const lamp = Math.hypot(px * 0.7, py + 0.15);
-        d *= 1.05 - Math.min(0.28, lamp * 0.22);
+        const lamp = Math.hypot(px * 0.65, py + 0.12);
+        d *= 1.08 - Math.min(0.32, lamp * 0.24);
 
         density[y * mapW + x] = Math.max(0, Math.min(1, d));
       }
@@ -145,9 +147,10 @@
       for (let x = 0; x < mapW; x += 1) {
         const i = y * mapW + x;
         const n =
-          Math.sin(x * 0.17 + t) * Math.cos(y * 0.14 - t * 0.75) * 0.5 +
-          Math.sin((x + y) * 0.06 + t * 0.45) * 0.5;
-        const v = density[i] + n * 0.085;
+          Math.sin(x * 0.15 + t) * Math.cos(y * 0.12 - t * 0.8) * 0.55 +
+          Math.sin((x + y) * 0.05 + t * 0.4) * 0.45 +
+          Math.sin(x * 0.04 - y * 0.03 + t * 0.25) * 0.35;
+        const v = density[i] + n * 0.15;
         const threshold = (BAYER[(y & 7) * 8 + (x & 7)] + 0.5) / 64;
         const on = v > threshold * 0.92 + 0.04;
         const o = i * 4;
