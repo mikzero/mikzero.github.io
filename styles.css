@@ -41,6 +41,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.field {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.has-field .felt {
+  background-color: transparent;
+  background-image: none;
+}
+
 .skip {
   position: absolute;
   left: 0.75rem;
@@ -57,6 +71,8 @@ body {
 }
 
 .felt {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
   min-height: 100dvh;
   display: grid;
@@ -189,6 +205,14 @@ h1 {
   }
 }
 
+@media (max-width: 639px) {
+  .felt {
+    align-content: start;
+    place-items: start center;
+    padding-top: clamp(7.5rem, 34vh, 15rem);
+  }
+}
+
 h2 {
   margin: 0 0 0.45rem;
   color: var(--muted);
@@ -261,6 +285,10 @@ footer p {
 }
 
 @media print {
+  .field {
+    display: none;
+  }
+
   body,
   .felt {
     background: white;
