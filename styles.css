@@ -5,7 +5,7 @@
   --paper: #f4ead8;
   --paper-edge: #e7d9c0;
   --ink: #1c1814;
-  --muted: #5c554c;
+  --muted: #4a453c;
   --rule: #c9b89a;
   --ember: #b63d28;
   --ember-ink: #8d2c1c;
@@ -74,7 +74,7 @@ body {
 .sheet {
   position: relative;
   width: min(42rem, 100%);
-  padding: calc(var(--space) + 0.35rem) var(--space) var(--space);
+  padding: calc(var(--space) + 0.55rem) var(--space) var(--space);
   background: var(--paper);
   background-image: linear-gradient(
     180deg,
@@ -241,11 +241,13 @@ footer p {
 }
 
 .page-404 .sheet {
+  width: min(26rem, 100%);
+  padding-block: 2.6rem;
   text-align: center;
 }
 
 .page-404 h1 {
-  font-size: clamp(1.8rem, 1.2rem + 2vw, 2.4rem);
+  font-size: clamp(1.55rem, 1.15rem + 1.6vw, 2rem);
 }
 
 .page-404 p {
