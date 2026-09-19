@@ -3,7 +3,8 @@
 Landing personale di [Mirko Visentin](https://mikzero.github.io)
 (`mikzero` su GitHub, `mikvise` su X).
 
-Backend, DevOps, AI applicata: meno hype, più uptime.
+Socio e Backend Engineer in FabuLAB; master e giocatore
+fuori dal terminale. Tre sezioni: lavoro, vita, contatti.
 
 Sito statico: HTML + CSS e un po’ di JavaScript vanilla per
 il dither animato sullo sfondo. Nessun build step, nessun tracker.

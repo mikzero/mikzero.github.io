@@ -16,6 +16,7 @@
     Georgia, serif;
   --font-body: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --space: clamp(1.25rem, 4vw, 2.25rem);
+  --measure: 38rem;
 }
 
 *,
@@ -34,8 +35,8 @@ body {
   min-height: 100dvh;
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
-  line-height: 1.6;
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.18rem);
+  line-height: 1.65;
   background: var(--felt-deep);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -76,8 +77,10 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   display: grid;
-  place-items: center;
+  place-items: start center;
   padding: clamp(0.85rem, 3.5vw, 2.75rem);
+  padding-top: clamp(5.5rem, 22vh, 10rem);
+  padding-bottom: clamp(2rem, 6vw, 4rem);
   background-color: var(--felt);
   background-image: radial-gradient(
       ellipse 90% 55% at 50% -10%,
@@ -89,7 +92,7 @@ body {
 
 .sheet {
   position: relative;
-  width: min(64rem, 100%);
+  width: min(44rem, 100%);
   padding: calc(var(--space) + 0.55rem) var(--space) var(--space);
   background: var(--paper);
   background-image: linear-gradient(
@@ -122,7 +125,7 @@ body {
 }
 
 .mast {
-  padding-bottom: 1.15rem;
+  padding-bottom: 1.2rem;
   border-bottom: 1px solid var(--rule);
 }
 
@@ -135,14 +138,6 @@ body {
   letter-spacing: 0.16em;
 }
 
-.kicker {
-  margin: 0 0 0.2rem;
-  color: var(--muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.14em;
-  text-transform: lowercase;
-}
-
 h1 {
   margin: 0;
   font-family: var(--font-display);
@@ -153,103 +148,81 @@ h1 {
   letter-spacing: -0.02em;
 }
 
-.line {
-  margin: 1.35rem 0 1.2rem;
-  padding: 0;
-  border: 0;
-}
-
-.line p {
-  margin: 0;
+.sub {
+  margin: 0.7rem 0 0;
+  max-width: var(--measure);
   color: var(--ember-ink);
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 1.05rem + 1.5vw, 1.85rem);
+  font-size: clamp(1.05rem, 0.95rem + 0.55vw, 1.28rem);
   font-style: italic;
   font-weight: 400;
-  line-height: 1.28;
+  line-height: 1.35;
 }
 
-.line p::before {
-  content: "«";
-  margin-right: 0.12em;
+.bio {
+  margin: 1.4rem 0 0.4rem;
+  max-width: var(--measure);
 }
 
-.line p::after {
-  content: "»";
-  margin-left: 0.12em;
+.bio p {
+  margin: 0 0 1rem;
 }
 
-.lead,
-.about {
-  max-width: 38rem;
-}
-
-.lead {
-  margin: 0 0 0.95rem;
-}
-
-.about {
-  margin: 0 0 1.8rem;
+.bio p:last-child {
+  margin-bottom: 0;
   color: var(--muted);
 }
 
-.cols {
-  display: grid;
-  gap: 1.75rem 1.85rem;
-  padding-top: 0.15rem;
-}
-
-.cols h3 {
-  margin: 1.05rem 0 0.28rem;
-  font-family: var(--font-display);
-  font-size: 1.02rem;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.cols h3:first-of-type {
-  margin-top: 0.2rem;
-}
-
-.cols p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.95em;
-  line-height: 1.5;
-}
-
-@media (min-width: 880px) {
-  .cols {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 639px) {
-  .felt {
-    align-content: start;
-    place-items: start center;
-    padding-top: clamp(7.5rem, 34vh, 15rem);
-  }
+section {
+  margin-top: 2.15rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--rule);
 }
 
 h2 {
-  margin: 0 0 0.45rem;
-  color: var(--muted);
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 0.74rem;
+  font-size: clamp(1.4rem, 1.15rem + 1vw, 1.75rem);
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
 }
 
-ul {
+.deck {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+}
+
+h3 {
+  margin: 1.35rem 0 0.4rem;
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+section > p {
   margin: 0;
+  max-width: var(--measure);
+  color: var(--muted);
+}
+
+.contacts ul {
+  margin: 1.1rem 0 0;
   padding: 0;
   list-style: none;
 }
 
-li + li {
-  margin-top: 0.28rem;
+.contacts li + li {
+  margin-top: 1rem;
+}
+
+.contacts p {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.95em;
 }
 
 a {
@@ -316,7 +289,7 @@ footer p {
   .felt {
     display: block;
     min-height: 0;
-    padding: 0;
+    padding: 1rem;
   }
 
   .sheet {
